@@ -5,6 +5,7 @@
     margin: 0 auto;
 }
 
+// Large screens
 @media screen and (max-width: 1024px) {
     .container {
         width: 90%;
@@ -12,7 +13,7 @@
     }
 }
 
-// Grandes tablettes et petits écrans
+// Tablets
 @media screen and (max-width: 768px) {
     .container {
         width: 95%;
@@ -20,7 +21,7 @@
     }
 }
 
-// Mobiles en mode paysage
+// Mobiles landscape
 @media screen and (max-width: 576px) {
     .container {
         width: 100%;
@@ -28,7 +29,7 @@
     }
 }
 
-// Petits mobiles
+// Little mobiles
 @media screen and (max-width: 375px) {
     .container {
         width: 100%;

@@ -254,6 +254,7 @@
   }
 }
 
+// Large screen
 @media screen and (max-width: 1200px) {
   .board {
     width: 90%;
@@ -273,7 +274,7 @@
   }
 }
 
-// Tablettes
+// Tablets
 @media screen and (max-width: 768px) {
   .round-info {
     font-size: 2rem;
