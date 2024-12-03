@@ -1,0 +1,17 @@
+@mixin fd-jc-ai($direction, $position, $alignement) {
+    display : flex;
+    flex-direction : $direction;
+    justify-content: $position;
+    align-items: $alignement;
+}
+
+@mixin f-jc-center($position) {
+    display: flex;
+    justify-content: $position;
+    align-items: center;
+} 
+
+@mixin f-item-center {
+    display: flex;
+    align-items: center;
+}

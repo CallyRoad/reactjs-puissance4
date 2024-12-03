@@ -1,0 +1,37 @@
+.container {
+    width: 1000px;
+    height: auto;
+    padding : 2rem;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 1024px) {
+    .container {
+        width: 90%;
+        padding: 1.5rem;
+    }
+}
+
+// Grandes tablettes et petits écrans
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 1rem;
+    }
+}
+
+// Mobiles en mode paysage
+@media screen and (max-width: 576px) {
+    .container {
+        width: 100%;
+        padding: 0.8rem;
+    }
+}
+
+// Petits mobiles
+@media screen and (max-width: 375px) {
+    .container {
+        width: 100%;
+        padding: 0;
+    }
+}
