@@ -175,7 +175,7 @@ const Grid = () => {
 
         {/* Buttons container */}
         <div className={mgame["buttons-container"]}>
-          <button onClick={handleResetBoard}>Recommencer</button>
+          <button onClick={handleResetBoard}>Revanche</button>
           <button onClick={handleResetScores}> Réinitialiser les scores</button>
         </div>
 
