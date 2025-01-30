@@ -1,10 +1,14 @@
 import React from 'react';
-import mmain from './main.module.scss'
-import Grid from './game/Grid';
+// Style
+import mmain from './main.module.scss';
+
+// Component
+import GameMode from "./game/game-mode/GameMode";
+
 const Main = () => {
     return (
         <main className={mmain.container}>
-            <Grid/>
+            <GameMode/>
         </main>
     );
 };
