@@ -1,7 +1,17 @@
+@use "src/styles/mixins";
+
 .footer {
     margin-top: 15rem;
     color : var(--gold);
+
+    @include mixins.fd-jc-ai(row, space-around, center);
     a {
         color : var(--gold);
+        transition: all .2s;
+
+        &:hover {
+            color : var(--red-pawn);
+            transition: all .2s;
+        }
     }
 }
