@@ -1,0 +1,130 @@
+// import mixins
+@use "../../../../styles/mixins" as mixins;
+
+.container {
+  @include mixins.fd-jc-ai(column, center, center);
+  padding: 2rem;
+  min-height: 50vh;
+  background-color: var(--blue-inner);
+  color: #ffffff;
+}
+
+// Title
+.title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--gold);
+}
+
+// Buttons
+.button-wrapper {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mode-button {
+  padding: 1rem 2rem;
+  font-size: 1.6rem;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  min-width: 200px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.yellow-button {
+  background-color: transparent;
+  border-color: var(--gold);
+  color: var(--gold);
+
+  &:hover {
+    background-color: rgba(255, 215, 0, 0.1);
+  }
+}
+
+.red-button {
+  background-color: transparent;
+  border-color: var(--red-pawn);
+  color: var(--red-pawn);
+
+  &:hover {
+    background-color: rgba(255, 68, 68, 0.1);
+  }
+}
+
+.back-button {
+  padding: 0.8rem 1.5rem;
+  margin-top: 1rem;
+  font-size: 1.6rem;
+  border: 2px solid var(--gold);
+  border-radius: 4px;
+  background-color: transparent;
+  color: var(--gold);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+
+  &:hover {
+    background-color: rgba(255, 215, 0, 0.1);
+  }
+}
+
+.online-wrapper {
+  text-align: center;
+  padding: 2rem;
+  color: #ffffff;
+}
+
+.info {
+  color: #cccccc;
+  margin: 1rem 0;
+}
+
+//Error message
+.error-box {
+  background: rgba(255, 0, 0, 0.1);
+  border: 2px solid var(--error-red);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  max-width: 40rem;
+  margin: 2rem auto;
+}
+
+.error-title {
+  color: var(--error-red);
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: #ccc6c6;
+  margin-bottom: 2rem;
+}
+
+.error-button {
+  background: var(--error-red);
+  color: #ccc6c6;
+  font-weight: bold;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background: var(--error-hover);
+  }
+}
