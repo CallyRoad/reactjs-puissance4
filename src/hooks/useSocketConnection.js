@@ -2,7 +2,13 @@
 import {useEffect, useState} from "react";
 
 // socket.io-client
-import { io } from "socket.io-client";
+import {io} from "socket.io-client";
+
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+
+if (!SERVER_URL) {
+    throw new Error("Server URL not configured. Please check environment variables.");
+}
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
@@ -44,15 +50,26 @@ const createSocket = () => io(SERVER_URL, {
 export const useSocketConnection = () => {
     const [socket] = useState(createSocket);
     const [socketConnected, setSocketConnected] = useState(false);
+    const [serverDisconnected, setServerDisconnected] = useState(false);
+
 
     useEffect(() => {
         setSocketConnected(socket.connected);
 
-        const handleConnect = () => setSocketConnected(true);
-        const handleDisconnect = () => setSocketConnected(false);
+        const handleConnect = () => {
+            setSocketConnected(true);
+            setServerDisconnected(false);
+        };
+
+        const handleDisconnect = (reason) => {
+            setSocketConnected(false);
+            setServerDisconnected(true);
+        };
+
         const handleError = (error) => {
             console.error("Connection error:", error);
             setSocketConnected(false);
+            setServerDisconnected(true);
         };
 
         socket.on("connect", handleConnect);
@@ -67,5 +84,5 @@ export const useSocketConnection = () => {
         };
     }, [socket]);
 
-    return { socket, socketConnected };
+    return {socket, socketConnected, serverDisconnected};
 };

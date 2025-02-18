@@ -9,6 +9,7 @@ import GameStatus from "./components/GameStatus";
 import GameScore from "../components/GameScore";
 import LobbyView from "./components/LobbyView";
 import ErrorView from "./components/ErrorView";
+import DisconnectionAlert from "./components/DisconnectionAlert";
 
 // Hooks
 import {useSocketConnection} from "../../../../../hooks/useSocketConnection";
@@ -26,8 +27,8 @@ const OnlineGrid = ({onBack}) => {
     const nbColumns = 7;
 
     // Custom hooks
-    const { socket, socketConnected } = useSocketConnection();
-    const { gameState, updateGameState, resetGameState } = useGameState();
+    const {socket, socketConnected, serverDisconnected} = useSocketConnection();
+    const {gameState, updateGameState, resetGameState} = useGameState();
     const {
         game,
         currentPlayer,
@@ -87,14 +88,14 @@ const OnlineGrid = ({onBack}) => {
         });
 
         socket.on("gameStarted", ({startingPlayer}) => {
-            updateGameState({ status: "playing" });
+            updateGameState({status: "playing"});
             setCurrentPlayer(startingPlayer);
         });
 
         socket.on("opponentPlayed", ({columnIndex, playedBy, nextPlayer}) => {
             const newStatus = updateGame(columnIndex, playedBy, nextPlayer);
             if (newStatus === "finished") {
-                updateGameState({ status: "finished" });
+                updateGameState({status: "finished"});
             }
         });
 
@@ -110,7 +111,7 @@ const OnlineGrid = ({onBack}) => {
         socket.on("boardReset", ({startingPlayer}) => {
             resetBoard();
             setCurrentPlayer(startingPlayer);
-            updateGameState({ status: "playing" });
+            updateGameState({status: "playing"});
         });
 
         // Player left
@@ -184,12 +185,12 @@ const OnlineGrid = ({onBack}) => {
 
     const handleConfirmReset = () => {
         if (pendingReset === "board") {
-            socket.emit("confirmResetBoard", { gameId: gameState.gameId });
+            socket.emit("confirmResetBoard", {gameId: gameState.gameId});
             resetBoard();
             setCurrentPlayer(1);
-            updateGameState({ status: "playing" });
+            updateGameState({status: "playing"});
         } else {
-            socket.emit("confirmResetScores", { gameId: gameState.gameId });
+            socket.emit("confirmResetScores", {gameId: gameState.gameId});
             resetScores();
         }
         closeResetDialog();
@@ -197,22 +198,19 @@ const OnlineGrid = ({onBack}) => {
 
     // Handle reset
     const handleCancelReset = () => {
-        socket.emit("rejectReset", { gameId: gameState.gameId });
+        socket.emit("rejectReset", {gameId: gameState.gameId});
         closeResetDialog();
     };
 
     const handleResetBoard = () => {
-        socket.emit("requestResetBoard", { gameId: gameState.gameId });
+        socket.emit("requestResetBoard", {gameId: gameState.gameId});
     };
 
     const handleResetScores = () => {
-        socket.emit("requestResetScores", { gameId: gameState.gameId });
+        socket.emit("requestResetScores", {gameId: gameState.gameId});
     };
 
     // Game state and error view
-    if (error) {
-        return <ErrorView error={error} onBack={onBack} />;
-    }
 
     if (gameState.status === "waiting" || gameState.status === "creating") {
         return (
@@ -226,50 +224,64 @@ const OnlineGrid = ({onBack}) => {
         );
     }
 
+    if (error) {
+        return <ErrorView error={error} onBack={onBack}/>;
+    }
+
     return (
         <section className={mgame.board}>
-            {/* Game score */}
-            <GameScore
-                isOnline={true}
-                currentPlayerId={gameState.playerId}
-                opponentName={gameState.opponentName}
-                firstPlayerScore={scores.player1}
-                secondPlayerScore={scores.player2}
-            />
 
-            {/* Game status */}
-            <GameStatus
-                isOnline={true}
-                winner={winner}
-                draw={draw}
-                gameState={gameState}
-                currentPlayer={currentPlayer}
-                opponentName={gameState.opponentName}
-            />
+            <article className={serverDisconnected ? mgame["game-disconnected"] : ""}>
+                {/* Game score */}
+                <GameScore
+                    isOnline={true}
+                    currentPlayerId={gameState.playerId}
+                    opponentName={gameState.opponentName}
+                    firstPlayerScore={scores.player1}
+                    secondPlayerScore={scores.player2}
+                />
 
-            {/* Game board */}
-            <GameGrid
-                gameId={gameState.gameId}
-                game={game}
-                onMovePlayed={handleMovePlayed}
-                winningLine={winningLine}
-            />
+                {/* Game status */}
+                <GameStatus
+                    isOnline={true}
+                    winner={winner}
+                    draw={draw}
+                    gameState={gameState}
+                    currentPlayer={currentPlayer}
+                    opponentName={gameState.opponentName}
+                />
 
-            {/* Resets buttons for board and scores */}
-            <ButtonsResets
-                handleResetBoard={handleResetBoard}
-                handleResetScores={handleResetScores}
-            />
+                {/* Game board */}
+                <GameGrid
+                    gameId={gameState.gameId}
+                    game={game}
+                    onMovePlayed={handleMovePlayed}
+                    winningLine={winningLine}
+                />
 
-            {/* Confirmation dialog for restart game or reset scores */}
-            <ConfirmationDialog
-                isOpen={showConfirmationDialog}
-                message={pendingReset === "board"
-                    ? "L'adversaire souhaite recommencer la partie. Acceptez-vous ?"
-                    : "L'adversaire souhaite réinitialiser les scores. Acceptez-vous ?"}
-                onConfirm={handleConfirmReset}
-                onCancel={handleCancelReset}
-            />
+                {/* Resets buttons for board and scores */}
+                <ButtonsResets
+                    handleResetBoard={handleResetBoard}
+                    handleResetScores={handleResetScores}
+                />
+
+                {/* Confirmation dialog for restart game or reset scores */}
+                <ConfirmationDialog
+                    isOpen={showConfirmationDialog}
+                    message={pendingReset === "board"
+                        ? "L'adversaire souhaite recommencer la partie. Acceptez-vous ?"
+                        : "L'adversaire souhaite réinitialiser les scores. Acceptez-vous ?"}
+                    onConfirm={handleConfirmReset}
+                    onCancel={handleCancelReset}
+                />
+            </article>
+
+            {/* Alert when server is disconnected */}
+            {serverDisconnected &&
+                <DisconnectionAlert
+                    onBack={onBack}
+                />
+            }
         </section>
     );
 };
