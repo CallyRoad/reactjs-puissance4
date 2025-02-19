@@ -17,9 +17,7 @@ const GameScore = ({
             </article>
         );
     }
-    if (!isOnline) {
-        console.log("Scores des joueurs en local : ", "firstplayerscore:", firstPlayerScore, "secondplayerscore:", secondPlayerScore);
-    }
+
     return (
         <article className={mgame["score"]}>
             <p>Joueur {firstPlayerName} : {firstPlayerScore}</p>
