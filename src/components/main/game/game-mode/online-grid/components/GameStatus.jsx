@@ -19,7 +19,7 @@ const GameStatus = ({
                     }) => {
     return (
         <>
-            {isOnline && gameState.status === "finished" ? null :
+            {(isOnline && gameState.status === "finished") || !isOnline && winner ? null :
                 <h3 className={mgame["round-info"]}>
                     {getTurnMessage(gameState, currentPlayer, isOnline, opponentName)}
                 </h3>
