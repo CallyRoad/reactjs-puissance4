@@ -55,7 +55,9 @@ const OnlineGrid = ({onBack}) => {
 
     useEffect(() => {
         // Socket session initialization
-        socket.emit("initSession", null);
+        if (socketConnected) {
+            socket.emit("initSession", null);
+        }
 
         // Error handling
         socket.on("gameError", (error) => {
@@ -149,7 +151,7 @@ const OnlineGrid = ({onBack}) => {
             socket.off("hostLeft");
             socket.off("playerLeft");
         };
-    }, [socket, game, currentPlayer, gameState]);
+    }, [socket, game, currentPlayer, gameState, socketConnected]);
 
     const handleCreateGame = (playerName) => {
         socket.emit("createGame", {playerName});

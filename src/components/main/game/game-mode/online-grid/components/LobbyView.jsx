@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 // Styles
 import mgame from '../../../game.module.scss';
 
@@ -21,18 +21,45 @@ const LobbyView = ({
                        socketConnected
                    }) => {
 
-    useEffect(() => {
-        console.log("Socket connection status:", socketConnected);
-    }, [socketConnected]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    return (
-        <div className={mgame.container}>
-            {!socketConnected ? (
+    useEffect(() => {
+        const loadingTimeout = setTimeout(() => {
+            setIsLoading(false);
+        }, 1500);
+
+        return () => clearTimeout(loadingTimeout);
+    }, []);
+
+    // If loading, display a loading screen
+    if (isLoading) {
+        return (
+            <div className={mgame.container}>
+                <div className={mgame["loading-overlay"]}>
+                    <div className={mgame["loading-spinner"]}></div>
+                    <p>Connexion au serveur...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // If the socket is not connected after loading
+    if (!socketConnected) {
+        return (
+            <div className={mgame.container}>
                 <div className={mgame["connection-error"]}>
                     <h3>Serveur indisponible</h3>
                     <p>Impossible de se connecter au serveur de jeu.</p>
+                    <button onClick={onBack}>Retour</button>
                 </div>
-            ) : gameState.gameId ? (
+            </div>
+        );
+    }
+
+
+    return (
+        <div className={mgame.container}>
+            {gameState.gameId ? (
                 <WaitingRoom gameId={gameState.gameId}/>
             ) : (
                 <>
