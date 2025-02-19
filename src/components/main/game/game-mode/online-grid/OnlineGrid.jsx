@@ -231,9 +231,9 @@ const OnlineGrid = ({onBack}) => {
     }
 
     return (
-        <section className={mgame.board}>
+        <section className={mgame["board"]}>
 
-            <article className={serverDisconnected ? mgame["game-disconnected"] : ""}>
+            <article className={serverDisconnected ? mgame["game-disconnected"] : mgame["game-connected"]}>
                 {/* Game score */}
                 <GameScore
                     isOnline={true}

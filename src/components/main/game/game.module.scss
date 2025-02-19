@@ -226,6 +226,15 @@
   width: 80rem;
   height: auto;
 
+  .game-disconnected {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .game-connected {
+    @include mixins.fd-jc-ai(column, center, center);
+
+  }
 
   .buttons-container {
     @include mixins.fd-jc-ai(row, space-around, center);
