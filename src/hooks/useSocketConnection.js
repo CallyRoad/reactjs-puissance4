@@ -4,9 +4,7 @@ import {useEffect, useState} from "react";
 // socket.io-client
 import {io} from "socket.io-client";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-
-if (!SERVER_URL) {
+if (!process.env.REACT_APP_SERVER_URL) {
     throw new Error("Server URL not configured. Please check environment variables.");
 }
 
@@ -26,7 +24,7 @@ if (!SERVER_URL) {
  */
 
 // socket configuration
-const createSocket = () => io(SERVER_URL, {
+const createSocket = () => io(process.env.REACT_APP_SERVER_URL, {
     reconnection: true,
     reconnectionAttempts: 3,
     reconnectionDelay: 2000,
