@@ -26,10 +26,10 @@ if (!process.env.REACT_APP_SERVER_URL) {
 // socket configuration
 const createSocket = () => io(process.env.REACT_APP_SERVER_URL, {
     reconnection: true,
-    reconnectionAttempts: 3,
-    reconnectionDelay: 2000,
+    reconnectionAttempts: 1,
+    reconnectionDelay: 1000,
+    timeout: 10000,
     reconnectionDelayMax: 5000,
-    timeout: 20000,
     transports: ["websocket"],
     autoConnect: true,
     forceNew: false,
