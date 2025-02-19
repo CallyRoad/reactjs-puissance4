@@ -8,12 +8,6 @@ if (!process.env.REACT_APP_SERVER_URL) {
     throw new Error("Server URL not configured. Please check environment variables.");
 }
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-
-if (!SERVER_URL) {
-    throw new Error("Server URL not configured. Please check environment variables.");
-}
-
 /**
  * Custom hook managing WebSocket connection for online gameplay
  *
