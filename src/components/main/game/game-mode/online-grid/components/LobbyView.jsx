@@ -50,7 +50,7 @@ const LobbyView = ({
                 <div className={mgame["connection-error"]}>
                     <h3>Serveur indisponible</h3>
                     <p>Impossible de se connecter au serveur de jeu.</p>
-                    <button onClick={onBack}>Retour</button>
+                    <button className={"back"} onClick={onBack}>Retour</button>
                 </div>
             </div>
         );
