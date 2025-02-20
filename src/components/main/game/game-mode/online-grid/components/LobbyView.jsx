@@ -67,7 +67,7 @@ const LobbyView = ({
                     <JoinGameForm onJoinGame={onJoinGame}/>
                 </>
             )}
-            <button onClick={onBack}>Retour</button>
+            <button className={"back"} onClick={onBack}>Retour</button>
         </div>
     )
 };

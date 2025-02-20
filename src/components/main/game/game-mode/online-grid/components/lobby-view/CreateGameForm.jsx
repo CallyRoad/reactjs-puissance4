@@ -30,7 +30,7 @@ const CreateGameForm = ({ onCreateGame }) => {
                     maxLength="20"
                     required
                 />
-                <button type="submit">Créer</button>
+                <button className={"join-game-button"} type="submit">Créer</button>
             </form>
 
         </div>

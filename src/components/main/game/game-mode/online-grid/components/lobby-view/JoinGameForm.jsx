@@ -43,7 +43,7 @@ const JoinGameForm = ({onJoinGame}) => {
                     required
                     onChange={(e) => setCodeGame(e.target.value)}
                 />
-                <button type="submit">Rejoindre</button>
+                <button className={"join-game-button"} type="submit">Rejoindre</button>
             </form>
         </div>
     );
