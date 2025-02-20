@@ -14,9 +14,10 @@ import GameGrid from "../online-grid/components/GameGrid";
 import { createGame } from "../../logic/game";
 import { victoryChecker } from "../../logic/victoryCheck";
 import { createGrid } from "../../logic/newGrid";
+import DisconnectionAlert from "../online-grid/components/DisconnectionAlert";
 
 // Local multiplayer game grid component
-const Grid = () => {
+const Grid = ({onBack}) => {
   // Game configuration
   const nbLines = 6;
   const nbColumns = 7;
@@ -167,8 +168,10 @@ const Grid = () => {
               handleResetScores={handleResetScores}
           />
 
+        <button className={"back"} onClick={onBack}>Retour</button>
       {/* End of section */}
       </section>
+
 
   );
 };

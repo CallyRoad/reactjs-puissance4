@@ -21,3 +21,29 @@ footer {
   text-align: center;
 }
 
+// Buttons styles
+button.back, button.reset {
+  margin-top: 2rem;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border-radius: 15px;
+  background: linear-gradient(145deg, var(--blue-board), #1a365d);
+  color: var(--gold);
+  letter-spacing: 2px;
+  border: 2px solid var(--gold);
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(145deg, var(--gold-pawn), #ffd700);
+    color: var(--blue-board);
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+}

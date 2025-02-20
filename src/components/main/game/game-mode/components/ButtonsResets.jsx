@@ -7,8 +7,8 @@ const ButtonsResets = ({handleResetBoard, handleResetScores}) => {
     return (
        // Resets  Buttons container
         <div className={mgame["buttons-container"]}>
-            <button onClick={handleResetBoard}>Revanche</button>
-            <button onClick={handleResetScores}> Réinitialiser les scores</button>
+            <button className={"reset"} onClick={handleResetBoard}>Revanche</button>
+            <button className={"reset"} onClick={handleResetScores}> Réinitialiser les scores</button>
         </div>
     );
 };

@@ -13,7 +13,7 @@ const DisconnectionAlert = ({onBack }) => {
             <p>La partie est terminée.</p>
 
             <div className={mgame["alert-buttons"]}>
-                <button onClick={onBack}>Retour au menu</button>
+                <button className={"back"} onClick={onBack}>Retour au menu</button>
             </div>
         </div>
     );

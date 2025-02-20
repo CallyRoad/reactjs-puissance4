@@ -17,7 +17,7 @@ const GameMode = () => {
     };
 
     if (selectedMode === "local") {
-        return <Grid/>;
+        return <Grid onBack={() => setSelectedMode(null)}/>;
     }
 
     if (selectedMode === "online") {
