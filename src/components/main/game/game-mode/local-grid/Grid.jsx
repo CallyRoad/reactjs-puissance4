@@ -166,9 +166,9 @@ const Grid = ({onBack}) => {
           <ButtonsResets
               handleResetBoard={handleResetBoard}
               handleResetScores={handleResetScores}
+              onBack={onBack}
           />
 
-        <button className={"back"} onClick={onBack}>Retour</button>
       {/* End of section */}
       </section>
 
