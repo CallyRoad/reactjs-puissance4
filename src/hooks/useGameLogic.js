@@ -71,11 +71,11 @@ export const useGameLogic = (nbLines, nbColumns) => {
                     [`player${playedBy}`]: prev[`player${playedBy}`] + 1
                 }));
                 setWinningLine(verifyVictory.getWinningLine(playedBy));
-                return "finished";
+                return "ended";
             } else if (isDraw) {
                 setDraw(true);
                 setStopGame(true);
-                return "finished";
+                return "ended";
             }
         }
         return "playing";
