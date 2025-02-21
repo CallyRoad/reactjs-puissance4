@@ -54,11 +54,6 @@ const OnlineGrid = ({onBack}) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Socket session initialization
-        if (socketConnected) {
-            socket.emit("initSession", null);
-        }
-
         // Error handling
         socket.on("gameError", (error) => {
             setError(error);
@@ -74,7 +69,7 @@ const OnlineGrid = ({onBack}) => {
                 gameId,
                 playerId,
                 playerName,
-                status: "waiting" // game state (waiting, joining, playing, finished)
+                status: "waiting" // game state (waiting, joining, playing, ended)
             });
         });
 
@@ -96,8 +91,8 @@ const OnlineGrid = ({onBack}) => {
 
         socket.on("opponentPlayed", ({columnIndex, playedBy, nextPlayer}) => {
             const newStatus = updateGame(columnIndex, playedBy, nextPlayer);
-            if (newStatus === "finished") {
-                updateGameState({status: "finished"});
+            if (newStatus === "ended") {
+                updateGameState({status: "ended"});
             }
         });
 
@@ -119,19 +114,21 @@ const OnlineGrid = ({onBack}) => {
         // Player left
         socket.on("resetScores", resetScores);
 
-        socket.on("hostLeft", () => {
-            setError("L'hôte a quitté la partie. La partie est terminée");
-            resetGameState();
+        socket.on("hostLeft", ({playerName}) => {
+            updateGameState({
+                status: "ended",
+            })
+            setError(`${playerName || "L'hôte"} a quitté la partie. La partie est terminée.`);
         });
 
-        socket.on("playerLeft", (data) => {
-            if (data?.playerName) {
-                setError(`${data.playerName} a quitté la partie.`);
-            }
+        socket.on("playerLeft", ({playerName}) => {
             updateGameState({
-                status: "waiting",
-                opponentName: ""
+                status: "ended",
+                opponentName: "",
             });
+            if (playerName) {
+                setError(`${playerName} a quitté la partie.`);
+            }
         });
 
         // Clean socket
@@ -153,19 +150,39 @@ const OnlineGrid = ({onBack}) => {
         };
     }, [socket, game, currentPlayer, gameState, socketConnected]);
 
-    const handleCreateGame = (playerName) => {
+    // Socket session initialization
+    const initSession = async () => {
+        if (socketConnected) {
+            const existingSession = localStorage.getItem("playerSessionId");
+
+            if (existingSession) {
+                // Use existing session
+                socket.emit("initSession", JSON.parse(existingSession));
+            } else {
+                socket.emit("initSession", null);
+            }
+        }
+    }
+
+    const handleCreateGame = async (playerName) => {
+        await initSession();
+
         socket.emit("createGame", {playerName});
+
         updateGameState({
             status: "creating",
             playerName
         });
     };
 
-    const handleJoinGame = ({playerName, gameId}) => {
+    const handleJoinGame = async ({playerName, gameId}) => {
+        await initSession();
+
         socket.emit("joinGame", {
             gameId,
             playerName
         });
+
         updateGameState({
             status: "joining",
             playerName
@@ -222,6 +239,7 @@ const OnlineGrid = ({onBack}) => {
                 onJoinGame={handleJoinGame}
                 onBack={onBack}
                 socketConnected={socketConnected}
+                error={error}
             />
         );
     }
@@ -265,6 +283,9 @@ const OnlineGrid = ({onBack}) => {
                 <ButtonsResets
                     handleResetBoard={handleResetBoard}
                     handleResetScores={handleResetScores}
+                    onBack={onBack}
+                    isOnline={true}
+                    socket={socket}
                 />
 
                 {/* Confirmation dialog for restart game or reset scores */}
