@@ -6,6 +6,7 @@ import mgame from '../../../game.module.scss';
 import CreateGameForm from "./lobby-view/CreateGameForm";
 import JoinGameForm from "./lobby-view/JoinGameForm";
 import WaitingRoom from "./lobby-view/WaitingRoom";
+import ErrorView from "./ErrorView";
 
 
 /* Game lobby interface managing the pre-game phase of online multiplayer, renders different views based on current state :
@@ -18,10 +19,12 @@ const LobbyView = ({
                        onCreateGame,
                        onJoinGame,
                        onBack,
-                       socketConnected
+                       socketConnected,
+                       error
                    }) => {
 
     const [isLoading, setIsLoading] = useState(true);
+    const [showError, setShowError] = useState(false);
 
     useEffect(() => {
         const loadingTimeout = setTimeout(() => {
@@ -30,6 +33,24 @@ const LobbyView = ({
 
         return () => clearTimeout(loadingTimeout);
     }, []);
+
+    useEffect(() => {
+        if (error) {
+            setShowError(true);
+            setIsLoading(false);
+
+            // reset error after display
+            const errorTimeout = setTimeout(() => {
+                setShowError(false);
+            }, 3000);
+
+            return () => clearTimeout(errorTimeout);
+        }
+    }, [error])
+
+    if (showError && error) {
+        return <ErrorView error={error} onBack={onBack} />;
+    }
 
     // If loading, display a loading screen
     if (isLoading) {
