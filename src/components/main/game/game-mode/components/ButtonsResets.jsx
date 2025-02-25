@@ -43,7 +43,7 @@ const ButtonsResets = ({
             </div>
             {/*Leave the game*/}
             <button
-                className={"back"}
+                className={"leave-game"}
                 onClick={handleLeaveGame}
                 title={isOnline ? "Quitter et déconnecter" : "Retour au menu"}
             >
