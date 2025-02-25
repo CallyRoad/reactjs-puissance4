@@ -2,16 +2,21 @@
 
 .footer {
     margin-top: 15rem;
-    color : var(--gold);
+    color: var(--gold);
 
     @include mixins.fd-jc-ai(row, space-around, center);
+
     a {
-        color : var(--gold);
+        color: var(--gold);
         transition: all .2s;
 
         &:hover {
-            color : var(--red-pawn);
+            color: var(--red-pawn);
             transition: all .2s;
         }
+    }
+
+    @media screen and (max-width: 576px) {
+        margin-top: 2rem;
     }
 }
