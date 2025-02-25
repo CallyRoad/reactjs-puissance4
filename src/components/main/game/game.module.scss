@@ -225,6 +225,7 @@
     @include mixins.f-jc-center(space-around);
     margin: 2rem 0;
     padding: 1.5rem;
+    gap: 2rem;
 
     p {
       font-size: 1.8rem;
